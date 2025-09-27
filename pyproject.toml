@@ -1,0 +1,15 @@
+[project]
+name = "cppbpe"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "memory-profiler>=0.61.0",
+    "pybind11>=3.0.1",
+    "regex>=2025.9.18",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple"
+default = true
