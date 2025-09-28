@@ -10,7 +10,7 @@ from pathlib import Path
 # Assume the train_bpe function is in cs336_basics/bpe.py
 # Please ensure your PYTHONPATH includes the directory containing cs336_basics
 try:
-    from bpe_vx import train_bpe
+    from bpe_vx_cpp import train_bpe
 except ImportError:
     print("Error: Could not import train_bpe. Please ensure cs336_basics is in your PYTHONPATH.")
     print("You can try running: export PYTHONPATH=$PYTHONPATH:$(pwd)")
@@ -29,7 +29,7 @@ def main():
     output_dir = Path("bpe_tokenizer/tinystories")
     
     # Check if the input file exists
-    if not Path(input_path).exists() or input_path == "/path/to/your/TinyStories_all_data.txt":
+    if not Path(input_path).exists():
         print(f"Error: Input file '{input_path}' does not exist.")
         print("Please edit the script file 'train_bpe.py' and set the correct 'input_path'.")
         return
@@ -57,8 +57,7 @@ def main():
         input_path=input_path,
         vocab_size=vocab_size,
         special_tokens=special_tokens,
-        num_processes=8,
-        use_tqdm=True,
+        num_processes=32
     )
     
     profiler.disable()
