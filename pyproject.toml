@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "memory-profiler>=0.61.0",
+    "numpy>=2.3.3",
     "pybind11>=3.0.1",
     "regex>=2025.9.18",
     "setuptools>=80.9.0",
