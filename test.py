@@ -1,7 +1,7 @@
 # import debugpy; debugpy.connect(('0.0.0.0', 5678))
 import json
 import time
-from bpe_vx import train_bpe
+from bpe_vx_cpp import train_bpe
 from pathlib import Path
 
 
@@ -87,7 +87,6 @@ def test_train_bpe():
             )
             for merge_token_1, merge_token_2 in gpt2_reference_merges
         ]
-        
     assert merges == reference_merges
 
     # Compare the vocab to the expected output vocab
