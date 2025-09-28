@@ -5,6 +5,8 @@ from tokenizers import Tokenizer
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
 from tokenizers.pre_tokenizers import ByteLevel
+from tokenizers.processors import ByteLevel as ByteLevelProcessor
+from tokenizers import decoders
 
 def main():
     """
@@ -15,15 +17,15 @@ def main():
     # !!!IMPORTANT!!! 
     # Please replace this path with the actual path to your TinyStories dataset file
     file_list = [
-        # "/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-train.txt",
-        # "/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-valid.txt",
-        "/inspire/dataset/cs336/v1/owt_train.txt",
-        "/inspire/dataset/cs336/v1/owt_valid.txt",
+        "/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-train.txt",
+        "/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-valid.txt",
+        # "/inspire/dataset/cs336/v1/owt_train.txt",
+        # "/inspire/dataset/cs336/v1/owt_valid.txt",
     ]
     vocab_size = 10000
     special_tokens = ["<|endoftext|>"]
-    # out_dir = "bpe_tokenizer_hf/tinystories"
-    out_dir = "bpe_tokenizer_hf/openwebtext"
+    out_dir = "bpe_tokenizer_hf/tinystories1"
+    # out_dir = "bpe_tokenizer_hf/openwebtext"
     output_dir = Path(out_dir)
 
     # Create output directory
@@ -34,10 +36,9 @@ def main():
 
     # --- Tokenizer Initialization ---
     # Initialize a BPE model
-    tokenizer = Tokenizer(BPE(unk_token=None))
-
-    # Use ByteLevel pre-tokenizer, which is standard for BPE
+    tokenizer = Tokenizer(BPE(unk_token="<unk>"))
     tokenizer.pre_tokenizer = ByteLevel(add_prefix_space=False)
+    
 
     # --- Training ---
     print("Starting BPE training with 'tokenizers' library...")
@@ -56,6 +57,27 @@ def main():
     training_duration_minutes = training_duration_seconds / 60
 
     print(f"Training complete in {training_duration_seconds:.2f} seconds (~{training_duration_minutes:.2f} minutes).")
+    
+    tokenizer.post_processor = ByteLevelProcessor(trim_offsets=False)
+    tokenizer.decoder = decoders.ByteLevel()
+    
+    # --- Smoke Test: Encode / Decode ---
+    print("\n--- Smoke Test ---")
+    sample_text = "Hello world! This is a test.\nNew line here."
+    encoded = tokenizer.encode(sample_text)
+    decoded = tokenizer.decode(encoded.ids, skip_special_tokens=False)
+
+    print(f"Original text: '{sample_text}'")
+    print(f"Encoded IDs: {encoded.ids}")
+    print(f"Encoded tokens: {encoded.tokens}")
+    print(f"Decoded text: '{decoded}'")
+
+    if sample_text == decoded:
+        print("✅ Encode/Decode round-trip successful!")
+    else:
+        print("❌ Mismatch in Encode/Decode round-trip.")
+        print(f"   Original: '{sample_text}'")
+        print(f"   Decoded:  '{decoded}'")
 
     # --- Save Results ---
     print(f"Saving results to '{output_dir}'...")

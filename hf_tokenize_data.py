@@ -169,18 +169,18 @@ def process_train_val(
 
 
 def main():
-    # tokenizer_path = Path("bpe_tokenizer_hf/openwebtext/tokenizer.json")
-    # train_input_path = Path("/inspire/dataset/cs336/v1/owt_train.txt")
-    # val_input_path = Path("/inspire/dataset/cs336/v1/owt_valid.txt")
-    # output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/data/openwebtext")
+    tokenizer_path = Path("bpe_tokenizer_hf/openwebtext/tokenizer.json")
+    train_input_path = Path("/inspire/dataset/cs336/v1/owt_train.txt")
+    val_input_path = Path("/inspire/dataset/cs336/v1/owt_valid.txt")
+    output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/data/openwebtext")
     
-    tokenizer_path = Path("bpe_tokenizer_hf/tinystories/tokenizer.json")
-    train_input_path = Path("/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-train.txt")
-    val_input_path = Path("/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-valid.txt")
-    output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/data/tinystories")
+    # tokenizer_path = Path("bpe_tokenizer_hf/tinystories/tokenizer.json")
+    # train_input_path = Path("/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-train.txt")
+    # val_input_path = Path("/inspire/dataset/cs336/v1/TinyStoriesV2-GPT4-valid.txt")
+    # output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/data/tinystories")
 
     # 可调参数
-    chunk_lines = 50000        # 每块处理的行数，根据你机器内存 / tokenizer 性能调节
+    chunk_lines = 1000000        # 每块处理的行数，根据你机器内存 / tokenizer 性能调节
     use_memmap = False         # 是否用 memmap 模式（预分配 + 两遍扫描）
 
     process_train_val(
