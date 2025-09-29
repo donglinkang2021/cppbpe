@@ -10,7 +10,7 @@ def smoke_test_tokenizer():
     """
     # --- 1. Load the tokenizer ---
     # Please ensure this path is correct
-    tokenizer_path_str = "bpe_tokenizer_hf/tinystories/tokenizer.json"
+    tokenizer_path_str = "bpe_tokenizer_hf/openwebtext/tokenizer.json"
     tokenizer = Tokenizer.from_file(tokenizer_path_str)
     tokenizer.post_processor = ByteLevelProcessor(trim_offsets=False)
     tokenizer.decoder = decoders.ByteLevel()
@@ -37,7 +37,7 @@ def smoke_test_tokenizer():
     assert original_text == decoded_text, "Tokenizer encode/decode cycle failed!"
     
     # --- 3. Save the tokenizer (optional) ---
-    output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/hf_tokenizer/tinystories")
+    output_dir = Path("/inspire/hdd/global_user/donglinkang-253108120084/standford-cs336/assignment1-basics/hf_tokenizer/openwebtext")
     output_dir.mkdir(parents=True, exist_ok=True)
     model_file = output_dir / "tokenizer.json"
     tokenizer.save(str(model_file))
